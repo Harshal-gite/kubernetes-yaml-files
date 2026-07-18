@@ -72,3 +72,13 @@ kubectl describe svc multi-container-service
 Browser Access
 
 http://<Node-IP>:30081
+
+Verify
+
+kubectl get pods -o wide
+
+kubectl get svc
+
+ Browser search
+
+ http://<NodeIP>:<NodePort>
