@@ -1,0 +1,89 @@
+  replicaset.yaml
+
+  apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: mario-rs
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mario
+  template:
+    metadata:
+      labels:
+        app: mario
+    spec:
+      containers:
+        - name: mario-container
+          image: harshalgit/super-mario
+          ports:
+            - containerPort: 80
+
+            replicaset-service.yaml
+
+            apiVersion: v1
+kind: Service
+metadata:
+  name: mario-rs-service
+spec:
+  selector:
+    app: mario
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: NodePort
+
+
+  # ReplicaSet Commands
+
+## Create ReplicaSet
+
+```bash
+kubectl apply -f 04-replicaset.yaml
+```
+
+## Create Service
+
+```bash
+kubectl apply -f 04-replicaset-service.yaml
+```
+
+## Verify Resources
+
+```bash
+kubectl get rs
+kubectl get pods
+kubectl get svc
+```
+
+## Describe ReplicaSet
+
+```bash
+kubectl describe rs mario-rs
+```
+
+## Scale ReplicaSet
+
+```bash
+kubectl scale rs mario-rs --replicas=5
+```
+
+## Check Pods
+
+```bash
+kubectl get pods
+```
+
+## Delete Service
+
+```bash
+kubectl delete -f 04-replicaset-service.yaml
+```
+
+## Delete ReplicaSet
+
+```bash
+kubectl delete -f 04-replicaset.yaml
+```
