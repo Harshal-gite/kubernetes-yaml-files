@@ -1,0 +1,74 @@
+📄 multi-pod.yaml
+
+apiVersion: v1
+kind: Pod
+
+metadata:
+  name: multi-container-pod
+  labels:
+    app: multi-container
+
+spec:
+  containers:
+
+    - name: nginx-container
+      image: nginx
+      ports:
+        - containerPort: 80
+
+    - name: busybox-container
+      image: busybox
+      command:
+        - sh
+        - -c
+        - |
+          while true
+          do
+            echo "Kubernetes Multi Container Pod is Running..."
+            sleep 10
+          done
+
+Apply
+
+kubectl apply -f multi-pod.yaml
+
+
+📄 multi-pod-service.yaml
+
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: multi-container-service
+
+spec:
+  selector:
+    app: multi-container
+
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30081
+
+  type: NodePort
+
+  Apply
+
+  kubectl apply -f multi-pod.yaml
+kubectl apply -f multi-pod-service.yaml
+
+Check
+
+kubectl get pods
+kubectl get svc
+kubectl get all
+
+Describe
+
+kubectl describe pod multi-container-pod
+kubectl describe svc multi-container-service
+
+Browser Access
+
+http://<Node-IP>:30081
