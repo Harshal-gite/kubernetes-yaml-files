@@ -1,0 +1,89 @@
+Replication-controllar.yaml
+
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: mario-rc
+spec:
+  replicas: 3
+  selector:
+    app: mario
+  template:
+    metadata:
+      labels:
+        app: mario
+    spec:
+      containers:
+        - name: mario-container
+          image: harshalgit/super-mario
+          ports:
+            - containerPort: 80
+
+
+            replication-controller-service.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mario-rc-service
+spec:
+  selector:
+    app: mario
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: NodePort
+
+
+        # ReplicationController Commands
+
+## Create ReplicationController
+
+```bash
+kubectl apply -f replication-controller.yaml
+```
+
+## Create Service
+
+```bash
+kubectl apply -f replication-controller-service.yaml
+```
+
+## Verify Resources
+
+```bash
+kubectl get rc
+kubectl get pods
+kubectl get svc
+```
+
+## Describe ReplicationController
+
+```bash
+kubectl describe rc mario-rc
+```
+
+## Scale ReplicationController
+
+```bash
+kubectl scale rc mario-rc --replicas=5
+```
+
+## Check Pods
+
+```bash
+kubectl get pods
+```
+
+## Delete Service
+
+```bash
+kubectl delete -f replication-controller-service.yaml
+```
+
+## Delete ReplicationController
+
+```bash
+kubectl delete -f replication-controller.yaml
+```    
