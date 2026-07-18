@@ -1,0 +1,59 @@
+📄 pod.yaml
+
+apiVersion: v1
+kind: Pod
+
+metadata:
+  name: netflix-pod
+  labels:
+    app: netflix
+    env: production
+
+spec:
+  containers:
+    - name: netflix-container
+      image: harshalgit/netflix:latest
+      imagePullPolicy: Always
+      ports:
+        - containerPort: 80
+
+        📄 service.yaml
+
+        apiVersion: v1
+kind: Service
+
+metadata:
+  name: netflix-service
+
+spec:
+  selector:
+    app: netflix
+
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30080
+
+  type: NodePort
+
+  Apply
+
+  kubectl apply -f pod.yaml
+kubectl apply -f service.yaml
+
+Check
+
+kubectl get pods
+kubectl get svc
+kubectl get all
+
+Describe
+
+kubectl describe pod netflix-pod
+kubectl describe svc netflix-service
+
+Enter Container
+
+kubectl exec -it netflix-pod -- sh
+
