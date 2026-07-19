@@ -1,0 +1,39 @@
+📄 daemonset.yaml
+
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: daemonset-example
+spec:
+  selector:
+    matchLabels:
+      app: daemon-app
+  template:
+    metadata:
+      labels:
+        app: daemon-app
+    spec:
+      containers:
+        - name: daemon-container
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+
+            Commands
+
+            kubectl apply -f daemonset.yaml
+
+kubectl get daemonsets
+
+kubectl get pods -o wide
+
+kubectl describe daemonset daemonset-example
+
+kubectl delete -f daemonset.yaml
+
+DaemonSet Use Cases
+✅ Fluentd (Log Collection)
+✅ Prometheus Node Exporter
+✅ Monitoring Agents
+✅ Security Agents
+✅ Antivirus / File Scanners
