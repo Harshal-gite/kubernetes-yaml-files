@@ -1,0 +1,56 @@
+* Deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-supermario
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: supermario
+  template:
+    metadata:
+      labels:
+        app: supermario
+    spec:
+      containers:
+      - name: supermario
+        image: harshalgit/super-mario
+        ports:
+        - containerPort: 80
+
+
+      *  Deployment-service.yaml
+
+        apiVersion: v1
+kind: Service
+metadata:
+  name: deployment-service
+spec:
+  selector:
+    app: supermario
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+    nodePort: 30082
+  type: NodePort
+
+  commands 
+
+   kubectl apply -f deployment.yaml
+
+kubectl apply -f deployment-service.yaml
+
+kubectl get deployment
+
+kubectl get pods
+
+kubectl get svc
+
+kubectl describe deployment deployment-supermario
+
+kubectl delete -f deployment-service.yaml
+
+kubectl delete -f deployment.yaml
