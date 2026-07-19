@@ -1,0 +1,58 @@
+configmap.yaml
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: web-config
+data:
+  APP_NAME: "Harshal Web App"
+  APP_VERSION: "v1"
+  ENVIRONMENT: "Development"
+
+  configmap-pod.yaml
+
+ apiVersion: v1
+kind: Pod
+metadata:
+  name: web-configmap-pod
+  labels:
+    app: web
+spec:
+  containers:
+  - name: web-container
+    image: harshalgit/web:v1
+    ports:
+    - containerPort: 80
+    env:
+    - name: APP_NAME
+      valueFrom:
+        configMapKeyRef:
+          name: web-config
+          key: APP_NAME
+    - name: APP_VERSION
+      valueFrom:
+        configMapKeyRef:
+          name: web-config
+          key: APP_VERSION
+    - name: ENVIRONMENT
+      valueFrom:
+        configMapKeyRef:
+          name: web-config
+          key: ENVIRONMENT
+
+
+          kubectl apply -f configmap.yaml
+
+kubectl apply -f configmap-pod.yaml
+
+kubectl get configmap
+
+kubectl get pods
+
+kubectl describe pod web-configmap-pod
+
+kubectl exec -it web-configmap-pod -- printenv
+
+kubectl delete -f configmap-pod.yaml
+
+kubectl delete -f configmap.yaml
