@@ -1,0 +1,45 @@
+📄 cronjob.yaml
+
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cronjob-example
+spec:
+  schedule: "*/2 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: cronjob-container
+              image: busybox
+              command:
+                - sh
+                - -c
+                - |
+                  echo "CronJob Executed Successfully!"
+                  date
+
+Commands
+
+kubectl apply -f cronjob.yaml
+
+kubectl get cronjobs
+
+kubectl get jobs
+
+kubectl get pods
+
+kubectl logs job/<job-name>
+
+kubectl describe cronjob cronjob-example
+
+kubectl delete -f cronjob.yaml
+
+Use Cases
+✅ Daily Database Backup
+✅ Log Cleanup
+✅ Report Generation
+✅ Health Check Scripts
+✅ Cache Cleanup
