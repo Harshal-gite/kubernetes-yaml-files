@@ -1,0 +1,37 @@
+ clusterip-pod.yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: web-pod
+  labels:
+    app: web
+spec:
+  containers:
+  - name: web-container
+    image: harshalgit/web:v1
+    ports:
+    - containerPort: 80
+
+
+clusterip-service.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-clusterip
+spec:
+  selector:
+    app: web
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: ClusterIP
+
+Commands
+
+kubectl apply -f clusterip-pod.yaml
+kubectl apply -f cluster-service.yaml
+kubectl get pods
+kubectl get svc
