@@ -1,0 +1,63 @@
+📄 statefulset.yaml
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nginx-stateful
+spec:
+  serviceName: nginx-headless
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-stateful
+  template:
+    metadata:
+      labels:
+        app: nginx-stateful
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+
+📄 headless-service.yaml
+
+         apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-headless
+spec:
+  clusterIP: None
+  selector:
+    app: nginx-stateful
+  ports:
+    - port: 80
+      targetPort: 80
+
+      Commands
+
+      kubectl apply -f 18-headless-service.yaml
+
+kubectl apply -f 18-statefulset.yaml
+
+kubectl get statefulsets
+
+kubectl get pods
+
+kubectl get svc
+
+kubectl describe statefulset nginx-stateful
+
+kubectl delete -f 18-statefulset.yaml
+
+kubectl delete -f 18-headless-service.yaml
+
+
+StatefulSet Use Cases
+✅ MySQL
+✅ PostgreSQL
+✅ MongoDB
+✅ Cassandra
+✅ Kafka
+✅ Elasticsearch
