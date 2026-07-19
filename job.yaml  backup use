@@ -1,0 +1,49 @@
+📄 job.yaml
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-example
+spec:
+  completions: 1
+  parallelism: 1
+  backoffLimit: 3
+  template:
+    metadata:
+      name: job-pod
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: job-container
+          image: busybox
+          command:
+            - sh
+            - -c
+            - |
+              echo "Starting Job..."
+              date
+              sleep 10
+              echo "Job Completed Successfully!"
+
+Commands
+
+kubectl apply -f job.yaml
+
+kubectl get jobs
+
+kubectl get pods
+
+kubectl describe job job-example
+
+kubectl logs job/job-example
+
+kubectl delete -f job.yaml
+
+
+He kontya kamasathi vapartat?
+✅ Database backup ghene
+✅ Database migration
+✅ Reports generate karne
+✅ Script ekdach run karne
+✅ Batch processing
+✅ Initial setup task
