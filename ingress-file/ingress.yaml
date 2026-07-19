@@ -1,0 +1,82 @@
+📄 ingress.yaml
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-example
+spec:
+  rules:
+    - host: mario.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ingress-service
+                port:
+                  number: 80
+
+---------------done------------------------
+  📄 ingress-service.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ingress-service
+spec:
+  selector:
+    app: ingress-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+
+
+  dosent use deployment file
+
+  ingress-deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ingress-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ingress-app
+  template:
+    metadata:
+      labels:
+        app: ingress-app
+    spec:
+      containers:
+        - name: mario
+          image: harshalgit/super-mario
+          ports:
+            - containerPort: 80
+
+Commands
+
+kubectl apply -f 19-ingress-deployment.yaml
+
+kubectl apply -f 19-ingress-service.yaml
+
+kubectl apply -f 19-ingress.yaml
+
+kubectl get ingress
+
+kubectl get svc
+
+kubectl get pods
+
+kubectl describe ingress ingress-example
+
+Use Cases
+✅ Single IP वर multiple applications host करणे
+✅ Host-based Routing (app.example.com)
+✅ Path-based Routing (/api, /admin)
+✅ SSL/TLS Termination
+✅ Reverse Proxy
