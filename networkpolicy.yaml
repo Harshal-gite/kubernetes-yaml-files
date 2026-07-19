@@ -1,0 +1,73 @@
+📄 networkpolicy.yaml
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-frontend
+spec:
+  podSelector:
+    matchLabels:
+      app: backend
+
+  policyTypes:
+    - Ingress
+
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: frontend
+      ports:
+        - protocol: TCP
+          port: 80
+
+📄 frontend-pod.yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: frontend-pod
+  labels:
+    app: frontend
+spec:
+  containers:
+    - name: frontend
+      image: nginx
+      ports:
+        - containerPort: 80
+
+        📄 backend-pod.yaml
+
+        apiVersion: v1
+kind: Pod
+metadata:
+  name: backend-pod
+  labels:
+    app: backend
+spec:
+  containers:
+    - name: backend
+      image: harshalgit/super-mario
+      ports:
+        - containerPort: 80
+
+
+   Commands     
+
+          kubectl apply -f frontend-pod.yaml
+
+kubectl apply -f backend-pod.yaml
+
+kubectl apply -f 20-networkpolicy.yaml
+
+kubectl get networkpolicy
+
+kubectl describe networkpolicy allow-frontend
+
+kubectl get pods --show-labels
+
+Use Cases
+✅ Microservices Security
+✅ Zero Trust Networking
+✅ Database Protection
+✅ Restrict Internal Traffic
