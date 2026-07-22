@@ -1,5 +1,5 @@
 📄 ingress.yaml
-
+```bash
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -16,10 +16,10 @@ spec:
                 name: ingress-service
                 port:
                   number: 80
-
+'''
 ---------------done------------------------
   📄 ingress-service.yaml
-
+```bash
 apiVersion: v1
 kind: Service
 metadata:
@@ -32,12 +32,12 @@ spec:
       port: 80
       targetPort: 80
   type: ClusterIP
-
+'''
 
   dosent use deployment file
 
   ingress-deployment.yaml
-
+```bash
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -57,7 +57,7 @@ spec:
           image: harshalgit/super-mario
           ports:
             - containerPort: 80
-
+'''
 Commands
 
 kubectl apply -f 19-ingress-deployment.yaml
