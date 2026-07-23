@@ -1,8 +1,9 @@
-📌 1. Pod
-Purpose
+# 📌 1. Pod
+### Purpose
 
-Creates a single Pod that runs one container.
+## Creates a single Pod that runs one container.
 
+```bash
 Commands
 kubectl apply -f pod.yaml
 kubectl get pods
@@ -10,115 +11,66 @@ kubectl get pods -o wide
 kubectl describe pod pod-coffee
 kubectl logs pod-coffee
 kubectl delete -f pod.yaml
+```
 
-📌 2. Replication Controller
-Purpose
+# 📌 2. Replication Controller
+## Purpose
 
-Maintains the desired number of Pod replicas. If one Pod fails, Kubernetes automatically creates a new one.
+### Maintains the desired number of Pod replicas. If one Pod fails, Kubernetes automatically creates a new one.
 
+```bash
 Commands
 kubectl apply -f replication-controller.yaml
 kubectl get rc
 kubectl describe rc replicationcontroller
 kubectl get pods
 kubectl delete -f replication-controller.yaml
+```
 
-📌 3. Service
-Purpose
+# 📌 3. Service
+## Purpose
 
-Exposes Pods so that users or other applications can access them.
+### Exposes Pods so that users or other applications can access them.
 
+```bash
 Commands
 kubectl apply -f service.yaml
 kubectl get svc
 kubectl describe svc svc-rc
 kubectl get endpoints
 kubectl delete -f service.yaml
+```
 
-📌 Useful Commands
-kubectl cluster-info
+# 📌 Useful Commands
 
-kubectl version
+---
 
-kubectl get nodes
+### kubectl cluster-info
 
-kubectl get all
+* kubectl version
 
-kubectl get events
+* kubectl get nodes
 
-kubectl get pods --show-labels
+* kubectl get all
 
-kubectl logs <pod-name>
+* kubectl get events
 
-kubectl describe pod <pod-name>
+* kubectl get pods --show-labels
 
-kubectl exec -it <pod-name> -- sh
+* kubectl logs <pod-name>
 
-kubectl delete pod <pod-name>
+* kubectl describe pod <pod-name>
 
-kubectl explain pod
+* kubectl exec -it <pod-name> -- sh
 
-kubectl explain service
+* kubectl delete pod <pod-name>
 
-kubectl explain replicationcontroller
+* kubectl explain pod
 
-📄 pod.yaml
+* kubectl explain service
 
-apiVersion: v1
-kind: Pod
+* kubectl explain replicationcontroller
 
-metadata:
-  name: pod-coffee
-  labels:
-    env: dev
+---
 
-spec:
-  containers:
-  - name: coffee
-    image: harshu-gite/coffie:latest
-    ports:
-    - containerPort: 80
-
-    📄 replication-controller.yaml
-    apiVersion: v1
-kind: ReplicationController
-
-metadata:
-  name: replicationcontroller
-
-spec:
-  replicas: 3
-
-  selector:
-    env: dev
-
-  template:
-    metadata:
-      labels:
-        env: dev
-
-    spec:
-      containers:
-      - name: coffee
-        image: harshu-gite/coffie:latest
-        ports:
-        - containerPort: 80
-
-        📄 service.yaml
-        apiVersion: v1
-kind: Service
-
-metadata:
-  name: svc-rc
-
-spec:
-  selector:
-    env: dev
-
-  ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 80
-
-  type: NodePort
   
